@@ -129,15 +129,5 @@ func getMasterAddr(sentinelAddress *net.TCPAddr, masterName string) (*net.TCPAdd
 		return nil, err
 	}
 
-	//check that there's actually someone listening on that address
-	conn2, err := net.DialTCP("tcp", nil, addr)
-	if err == nil {
-		defer conn2.Close()
-	}
-
-	if err != nil {
-		fmt.Printf("Error occurred in the DialTCP to addr (%s) within func getMasterAddr\n", addr)
-	}
-
 	return addr, err
 }
