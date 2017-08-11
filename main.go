@@ -58,7 +58,7 @@ func master(stopChan *chan struct{}) {
 		// has master changed from last time?
 		masterAddr, err = getMasterAddr(saddr, *masterName)
 		if err != nil {
-			log.Println("Error returned after the call to func getMasterAddr")
+			fmt.Println("Error returned after the call to func getMasterAddr")
 			log.Println(err)
 		}
 		if masterAddr.String() != prevMasterAddr.String() {
@@ -82,7 +82,7 @@ func proxy(local *net.TCPConn, remoteAddr *net.TCPAddr, stopChan *chan struct{})
 	fmt.Printf("Opening a new connection on remoteAddr, %s\n", remoteAddr)
 	remote, err := net.DialTCP("tcp", nil, remoteAddr)
 	if err != nil {
-		log.Println("Error occurred in the DialTCP within func proxy")
+		fmt.Println("Error occurred in the DialTCP within func proxy")
 		log.Println(err)
 		local.Close()
 		return
@@ -95,10 +95,10 @@ func proxy(local *net.TCPConn, remoteAddr *net.TCPAddr, stopChan *chan struct{})
 }
 
 func getMasterAddr(sentinelAddress *net.TCPAddr, masterName string) (*net.TCPAddr, error) {
-	log.Printf("Polling for changes to master IP address {prev: %s, current: %s}\n", prevMasterAddr, masterAddr)
+	fmt.Printf("Polling for changes to master IP address {prev: %s, current: %s}\n", prevMasterAddr, masterAddr)
 	conn, err := net.DialTCP("tcp", nil, sentinelAddress)
 	if err != nil {
-		log.Printf("Error occurred in the DialTCP to sentinelAddress (%s) within func getMasterAddr\n", sentinelAddress)
+		fmt.Printf("Error occurred in the DialTCP to sentinelAddress (%s) within func getMasterAddr\n", sentinelAddress)
 		return nil, err
 	}
 
@@ -124,7 +124,7 @@ func getMasterAddr(sentinelAddress *net.TCPAddr, masterName string) (*net.TCPAdd
 	addr, err := net.ResolveTCPAddr("tcp", stringaddr)
 
 	if err != nil {
-		log.Printf("Error occurred in the ResolveTCPAddr to stringaddr (%s) within func getMasterAddr\n", stringaddr)
+		fmt.Printf("Error occurred in the ResolveTCPAddr to stringaddr (%s) within func getMasterAddr\n", stringaddr)
 		return nil, err
 	}
 
@@ -135,7 +135,7 @@ func getMasterAddr(sentinelAddress *net.TCPAddr, masterName string) (*net.TCPAdd
 	}
 
 	if err != nil {
-		log.Printf("Error occurred in the DialTCP to addr (%s) within func getMasterAddr\n", addr)
+		fmt.Printf("Error occurred in the DialTCP to addr (%s) within func getMasterAddr\n", addr)
 	}
 
 	return addr, err
