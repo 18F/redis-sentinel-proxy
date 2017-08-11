@@ -69,7 +69,7 @@ func master(stopChan *chan struct{}) {
 			*stopChan = make(chan struct{})
 		}
 		prevMasterAddr = masterAddr
-		time.Sleep(1 * time.Second)
+		time.Sleep(250 * time.Millisecond)
 	}
 }
 
@@ -97,7 +97,6 @@ func proxy(local *net.TCPConn, remoteAddr *net.TCPAddr, stopChan *chan struct{})
 }
 
 func getMasterAddr(sentinelAddress *net.TCPAddr, masterName string) (*net.TCPAddr, error) {
-	fmt.Printf("Polling for changes to master IP address {prev: %s, current: %s}\n", prevMasterAddr, masterAddr)
 	conn, err := net.DialTCP("tcp", nil, sentinelAddress)
 	if err != nil {
 		fmt.Printf("Error occurred in the DialTCP to sentinelAddress (%s) within func getMasterAddr\n", sentinelAddress)
