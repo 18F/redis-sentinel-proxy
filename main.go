@@ -60,6 +60,8 @@ func master(stopChan *chan struct{}) {
 		if err != nil {
 			fmt.Println("Error returned after the call to func getMasterAddr")
 			log.Println(err)
+			close(*stopChan)
+			*stopChan = make(chan struct{})
 		}
 		if masterAddr.String() != prevMasterAddr.String() {
 			fmt.Printf("Master Address changed. Closing stopChan. Setting masterAddr to %s from %s \n", masterAddr.String(), prevMasterAddr.String())
