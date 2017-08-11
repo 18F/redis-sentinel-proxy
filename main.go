@@ -69,7 +69,7 @@ func master(stopChan *chan struct{}) {
 			*stopChan = make(chan struct{})
 		}
 		prevMasterAddr = masterAddr
-		time.Sleep(250 * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
 	}
 }
 
